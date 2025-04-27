@@ -44,4 +44,4 @@ jobs:
 
     - name: Terraform Apply
       if: success()
-      run: terraform apply tfplan
+      run: terraform apply "nwinfra.plan"
