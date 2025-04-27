@@ -3,6 +3,10 @@ name: Terraform Destroy Infrastructure
 on:
   workflow_dispatch:   # <-- Manual trigger only
 
+permissions:
+  issues: write
+  contents: read
+  
 jobs:
   destroy:
     name: Destroy Terraform Resources
