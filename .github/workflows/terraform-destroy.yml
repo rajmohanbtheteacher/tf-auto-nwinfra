@@ -26,7 +26,7 @@ jobs:
       run: terraform init -backend-config="key=${{ env.ENV_NAME }}/terraform.tfstate"
 
     - name: Terraform Plan Destroy
-      run: terraform plan -destroy -var-file=env/${{ env.ENV_NAME }}/main.tfvars -out=destroy-tfplan
+      run: terraform plan -destroy -var-file=env/${{ env.ENV_NAME }}/main.tfvars -out=nwinfra.plan
 
     - name: Wait for Manual Approval (for Destroy)
       uses: trstringer/manual-approval@v1
@@ -37,4 +37,4 @@ jobs:
 
     - name: Terraform Apply Destroy Plan
       if: success()
-      run: terraform apply destroy-tfplan
+      run: terraform apply "nwinfra.plan"
