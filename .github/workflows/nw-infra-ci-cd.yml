@@ -1,4 +1,4 @@
-name: Terraform Multi-Environment Pipeline
+wname: Terraform Multi-Environment Pipeline
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: terraform-plan
-        path: infra/tfplan
+        path: nwinfra.plan
 
     - name: Wait for Manual Approval
       uses: trstringer/manual-approval@v1
