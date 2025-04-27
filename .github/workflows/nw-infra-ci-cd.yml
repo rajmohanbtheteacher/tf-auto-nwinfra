@@ -27,13 +27,13 @@ jobs:
       run: terraform init -backend-config="key=${{ github.ref_name }}/terraform.tfstate"
 
     - name: Terraform Plan
-      run: terraform plan -var-file=env/${{ github.ref_name }}/main.tfvars -out=nwinfra.plam
+      run: terraform plan -var-file=env/${{ github.ref_name }}/main.tfvars -out=nwinfra.plan
 
     - name: Upload Plan
       uses: actions/upload-artifact@v4
       with:
         name: terraform-plan
-        path: infra/tfplan
+        path: nwinfra.plan
 
     - name: Wait for Manual Approval
       uses: trstringer/manual-approval@v1
