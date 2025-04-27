@@ -1,3 +1,5 @@
+#This is root main.tf, don't modify this file, unless you have modified the modules
+
 module "vpcs" {
   for_each = var.vpcs
 
