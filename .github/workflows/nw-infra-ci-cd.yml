@@ -1,0 +1,52 @@
+name: Terraform Multi-Environment Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+      - stage
+      - main
+
+jobs:
+  terraform:
+    name: Terraform Plan and Apply per Environment
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: infra
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_AKEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: terraform init -backend-config="key=${{ github.ref_name }}/terraform.tfstate"
+
+    - name: Terraform Plan
+      run: terraform plan -var-file=envs/${{ github.ref_name }}/main.tfvars -out=tfplan
+
+    - name: Upload Plan
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-plan
+        path: infra/tfplan
+
+    - name: Wait for Manual Approval
+      uses: trstringer/manual-approval@v1
+      with:
+        secret: ${{ secrets.GITHUB_TOKEN }}
+        approvers: rajmohanbtheteacher
+        instructions: "Approve Terraform Apply for ${{ github.ref_name }} environment"
+
+    - name: Terraform Apply
+      if: success()
+      run: terraform apply tfplan
