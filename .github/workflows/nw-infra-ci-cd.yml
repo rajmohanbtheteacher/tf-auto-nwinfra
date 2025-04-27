@@ -16,7 +16,7 @@ jobs:
        
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_AKEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
     steps:
@@ -30,7 +30,7 @@ jobs:
       run: terraform init -backend-config="key=${{ github.ref_name }}/terraform.tfstate"
 
     - name: Terraform Plan
-      run: terraform plan -var-file=envs/${{ github.ref_name }}/main.tfvars -out=tfplan
+      run: terraform plan -var-file=env/${{ github.ref_name }}/main.tfvars -out=nwinfra.plam
 
     - name: Upload Plan
       uses: actions/upload-artifact@v4
