@@ -33,7 +33,7 @@ terraform {
     bucket         = "become-techgeek-tfstate-demo"
     key            = "terraform/terraform.tfstate"  # (like a folder path)
     region         = "us-east-1"
-    dynamodb_table = "terraform_locks"
+    use_lock_table = "true"
     encrypt        = true
   }
 }
