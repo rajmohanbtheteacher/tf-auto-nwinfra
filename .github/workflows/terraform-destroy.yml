@@ -33,7 +33,10 @@ jobs:
       with:
         secret: ${{ secrets.GITHUB_TOKEN }}
         approvers: rajmohanbtheteacher
-        instructions: "This will destroy all resources for ${{ env.ENV_NAME }}. Confirm carefully!"
+        issue-title: "Terraform Destroy Approval for ${{ env.ENV_NAME }}"
+        issue-body: "Please review and approve destruction of all resources in environment: ${{ env.ENV_NAME }}. ⚠️ This is IRREVERSIBLE! Proceed with caution."
+        minimum-approvals: 1
+        timeout-minutes: 30
 
     - name: Terraform Apply Destroy Plan
       if: success()
